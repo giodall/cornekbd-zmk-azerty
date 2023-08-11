@@ -14,6 +14,8 @@
 #define LEF 2
 #define TRI 3
 
+// THIS IS A FRENCH LAYOUT MAPPING
+
 / {
     behaviors {
         ht: hold_tap {
@@ -41,13 +43,13 @@
         default_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│          │  Q       │  W       │  E       │  R       │  T       │   │  Y       │  U       │  I       │  O       │  P       │          │
+        //│          │  A       │  Z       │  E       │  R       │  T       │   │  Y       │  U       │  I       │  O       │  P       │          │
             &trans      &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │  A       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │  ;       │          │
-            &trans      &kp A     HRML(S,         D,         F,         G)         &kp H      HRMR(J,        K,           L,    SEMI)     &trans
+        //│          │  Q       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │  M       │          │
+            &trans      HRML( A,     S,         D,         F)       &kp G          &kp H      HRMR(J,        K,           L,    SEMI)     &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │  Z       │  X       │  C       │  V       │  B       │   │  N       │  M       │ ,        │ .        │ /        │          │
+        //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │ ,?       │ ;.       │ :/       │ =+       │          │
             &trans      &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH    &trans
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
                                            &kp LSHIFT &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
@@ -59,13 +61,13 @@
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
         //│          │          │  1       │  2       │  3       │          │   │          │          │          │          │          │          │
-            &trans      &trans     &kp N1     &kp N2     &kp N3     &trans         &trans     &trans     &trans     &trans     &trans     &trans
+            &trans      &trans     &kp EXCL   &kp AT     &kp HASH   &trans         &trans     &trans     &trans     &trans     &trans     &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │          │  4       │  5       │  6       │          │   │          │ LEFT     │ DOWN     │ UP       │ RIGHT    │          │
-            &trans      &trans     &kp N4    &kp N5    &kp N6       &trans         &trans    &kp LARW   &kp DARW   &kp UARW   &kp RARW    &trans
+            &trans      &trans     &kp DLLR   &kp PRCNT  &kp CARET  &trans         &trans    &kp LARW   &kp DARW   &kp UARW   &kp RARW    &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │          │  7       │  8       │  9       │  0       │   │          │ HOME     │ PAGE DN  │ PAGE UP  │ END      │          │
-            &trans      &trans     &kp N7     &kp N8     &kp N9     &kp N0         &trans    &kp HOME   &kp PG_DN  &kp PG_UP  &kp END     &trans
+            &trans      &trans     &kp AMPS   &kp ASTRK  &kp LPAR   &kp RPAR       &trans    &kp HOME   &kp PG_DN  &kp PG_UP  &kp END     &trans
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
                                               &trans     &trans     &trans         &trans     &trans     &trans
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
@@ -75,14 +77,14 @@
         left_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│          │  !       │  @       │  #       │  $       │  %       │   │  ^       │  &       │  *       │  `       │  ~       │          │
-            &trans     &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT      &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE   &kp TILDE  &trans
+        //│          │  &       │  é       │  "       │  '       │  (       │   │  §       │  è       │  !       │  ç       │  à       │          │
+            &trans      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5         &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  "       │  [       │  {       │  (       │          │   │   /      │  -       │  =       │     :    │  ;       │          │
-            &trans      &kp DQT    &kp LBKT   &kp LBRC   &kp LPAR   &trans         &kp FSLH  &kp MINUS  &kp EQUAL  &kp COLON   &kp SEMI   &trans
+            &trans      &kp DQT    &kp LBKT   &kp LBRC   &kp N5     &trans         &kp FSLH  &kp MINUS  &kp EQUAL  &kp COLON   &kp SEMI   &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  '       │  ]       │  }       │  )       │          │   │    \     │  _       │  +       │  │       │   ?      │          │
-            &trans      &kp SQT     &kp RBKT   &kp RBRC   &kp RPAR   &trans         &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE  &kp QMARK  &trans
+            &trans      &kp SQT     &kp RBKT   &kp RBRC  &kp MINUS  &trans         &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE  &kp QMARK  &trans
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
                                               &trans     &trans     &trans         &trans     &trans     &trans
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
