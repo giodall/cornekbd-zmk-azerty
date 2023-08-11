@@ -1,8 +1,142 @@
+// Copyright (c) 2022 The ZMK Contributors
+// SPDX-License-Identifier: MIT
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+
+// Home row mods macro
+#define HRML(k1,k2,k3,k4) &ht LSHIFT k1 &ht LALT k2  &ht LCTRL k3  &ht LGUI k4
+#define HRMR(k1,k2,k3,k4) &ht RGUI k1  &ht RCTRL k2  &ht RALT k3 &ht RSHIFT k4
+
+#define MAC 0
+#define RIG 1
+#define LEF 2
+#define TRI 3
+
+/ {
+    behaviors {
+        ht: hold_tap {
+            label = "hold_tap";
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <150>;
+            global-quick-tap;
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <RIG LEF>;
+            then-layer = <TRI>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        default_layer {
+            bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│          │  A       │  Z       │  E       │  R       │  T       │   │  Y       │  U       │  I       │  O       │  P       │          │
+            &trans      &kp A      &kp Z      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │  Q       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │  M       │          │
+            &trans      &kp Q     HRML(S,         D,         F,         G)         &kp H      HRMR(J,        K,           L,       M)     &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │  , <     │ . >      │ / ?      │ = +      │          │
+            &trans      &kp W      &kp X      &kp C      &kp V      &kp B          &kp N     &kp COMMA  &kp DOT    &kp SLASH  &kp EQUAL   &trans
+        //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                           &kp LSHIFT &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
+        //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        right_layer {
+            bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│          │          │  1       │  2       │  3       │          │   │          │          │          │          │          │          │
+            &trans      &trans     &kp N1     &kp N2     &kp N3     &trans         &trans     &trans     &trans     &trans     &trans     &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │          │  4       │  5       │  6       │          │   │          │ LEFT     │ DOWN     │ UP       │ RIGHT    │          │
+            &trans      &trans     &kp N4    &kp N5    &kp N6       &trans         &trans    &kp LARW   &kp DARW   &kp UARW   &kp RARW    &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │          │  7       │  8       │  9       │  0       │   │          │ HOME     │ PAGE DN  │ PAGE UP  │ END      │          │
+            &trans      &trans     &kp N7     &kp N8     &kp N9     &kp N0         &trans    &kp HOME   &kp PG_DN  &kp PG_UP  &kp END     &trans
+        //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                              &trans     &trans     &trans         &trans     &trans     &trans
+        //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        left_layer {
+            bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│          │  !       │  @       │  #       │  $       │  %       │   │  ^       │  &       │  *       │  `       │  ~       │          │
+            &trans     &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT      &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE   &kp TILDE  &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │  "       │  [       │  {       │  (       │          │   │   /      │  -       │  =       │     :    │  ;       │          │
+            &trans      &kp DQT    &kp LBKT   &kp LBRC   &kp LPAR   &trans         &kp FSLH  &kp MINUS  &kp EQUAL  &kp COLON   &kp SEMI   &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │  '       │  ]       │  }       │  )       │          │   │    \     │  _       │  +       │  │       │   ?      │          │
+            &trans      &kp SQT     &kp RBKT   &kp RBRC   &kp RPAR   &trans         &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE  &kp QMARK  &trans
+        //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                              &trans     &trans     &trans         &trans     &trans     &trans
+        //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        tri_layer {
+            bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬───────────┬──────────┬──────────╮
+        //│          │  F1      │  F2      │  F3      │  F4      │ PROFILE 0│   │ PROFILE 2│          │          │ VOL MUTE  │ NEXTSONG │          │
+            &trans     &kp F1     &kp F2     &kp F3     &kp F4   &bt BT_SEL 0   &bt BT_SEL 2  &trans     &trans    &kp C_MUTE  &kp C_NEXT  &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼───────────┼──────────┼──────────┤
+        //│          │  F5      │  F6      │  F7      │  F8      │ PROFILE 1│   │ PROFILE 3│ INC BRIGH│          │  VOL UP   │PAUSEMUSIC│          │
+            &trans     &kp F5     &kp F6     &kp F7     &kp F8   &bt BT_SEL 1   &bt BT_SEL 3 &kp C_BRI_UP &trans   &kp C_VOL_UP  &kp C_PP  &trans
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼───────────┼──────────┼──────────┤
+        //│          │  F9      │  F10     │  F11     │  F12     │  CLEAR BT│   │ PROFILE 4│ DEC BRIGH│          |  VOL DOWN │ PREVSONG │
+            &trans     &kp F9     &kp F10    &kp F11    &kp F12    &bt BT_CLR   &bt BT_SEL 4 &kp C_BRI_DEC &trans  &kp C_VOL_DN &kp C_PREV &trans
+        //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴───────────┴──────────┴──────────╯
+                                              &trans     &trans     &trans         &trans     &trans     &trans
+        //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+    };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
  * Copyright (c) 2020 The ZMK Contributors
  *
  * SPDX-License-Identifier: MIT
- */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
@@ -54,3 +188,4 @@
                 };
         };
 };
+*/
