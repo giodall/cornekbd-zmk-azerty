@@ -82,8 +82,8 @@
             &trans      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5        &kp MINUS   &kp N7     &kp N8     &kp N9     &kp N0     &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  `       │  /       │  #       │  @       │  {       │   │  }       │   _      │ ^        │  |       │  $       │          │
-        //  &trans      HRML(BSLH, LS(DOT),   LS(NUBS),  NUBS)     &kp RA(N5)  &kp RA(MINUS) HRMR(LS(EQUAL), LBKT,  RSA(l),    RBKT)      &trans
-            &trans     &kp BSLH  &kp LS(DOT) &kp LS(NUBS) &kp NUBS &kp RA(N5)  &kp RA(MINUS) &kp LS(EQUAL) &kp LBKT &kp RSA(l) &kp RBKT   &trans
+        //  &trans      HRML(BSLH, LS(DOT),   LS(NUBS),  NUBS)     &kp RA(N5)  &kp RA(MINUS) HRMR(LS(EQUAL), LBKT,  RSA(L),    RBKT)      &trans
+            &trans     &kp BSLH  &kp LS(DOT) &kp LS(NUBS) &kp NUBS &kp RA(N5)  &kp RA(MINUS) &kp LS(EQUAL) &kp LBKT &kp RSA(L) &kp RBKT   &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  ù       │  \       │   <      │  >       │  [       │   │  ]       │  ~       │  %       │   °      │  €       │          │
             &trans    &kp SQT &kp RSA(DOT) &kp GRAVE &kp LS(GRAVE) &kp RSA(N5) &kp RSA(MINUS) &kp RA(N) &kp LS(SQT) &kp LS(MINUS) &kp RA(RBKT) &trans
