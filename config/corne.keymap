@@ -8,6 +8,7 @@
 // Home row mods macro
 #define HRML(k1,k2,k3,k4) &ht LSHIFT k1 &ht LALT k2  &ht LCTRL k3  &ht LGUI k4
 #define HRMR(k1,k2,k3,k4) &ht RGUI k1  &ht RCTRL k2  &ht RALT k3 &ht RSHIFT k4
+#define RSA(k) RS(RA(k))
 
 #define MAC 0
 #define RIG 1
@@ -60,14 +61,14 @@
         right_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│          │          │  1       │  2       │  3       │          │   │          │          │          │          │          │          │
-            &trans      &trans     &kp EXCL   &kp AT     &kp HASH   &trans         &trans     &trans     &trans     &trans     &trans     &trans
+        //│          │  *       │  1       │  2       │  3       │  +       │   │          │  HOME    │  UP      │  END     │  PAGE DN │          │
+            &trans    &kp LS(RBKT) &kp EXCL   &kp AT     &kp HASH   &kp LS(FSLH)   &trans     &kp HOME   &kp UARW   &kp END    &kp PG_DN  &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │          │  4       │  5       │  6       │          │   │          │ LEFT     │ DOWN     │ UP       │ RIGHT    │          │
-            &trans      &trans     &kp DLLR   &kp PRCNT  &kp CARET  &trans         &trans    &kp LARW   &kp DARW   &kp UARW   &kp RARW    &trans
+        //│          │  /       │  4       │  5       │  6       │  -       │   │          │ LEFT     │ DOWN     │ RIGHT    │  PAGE UP            │
+            &trans     &kp LS(DOT) &kp DLLR   &kp PRCNT  &kp CARET  &kp(EQUAL)     &trans    &kp LARW   &kp DARW   &kp RARW    &kp PG_UP  &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │          │  7       │  8       │  9       │  0       │   │          │ HOME     │ PAGE DN  │ PAGE UP  │ END      │          │
-            &trans      &trans     &kp AMPS   &kp ASTRK  &kp LPAR   &kp RPAR       &trans    &kp HOME   &kp PG_DN  &kp PG_UP  &kp END     &trans
+        //│          │  .       │  7       │  8       │  9       │  0       │   │          │          │          │          │          │          │
+            &trans    &kp LS(COMMA) &kp AMPS  &kp ASTRK  &kp LPAR   &kp RPAR       &trans     &trans     &trans     &trans     &trans     &trans
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
                                               &trans     &trans     &trans         &trans     &trans     &trans
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
@@ -77,14 +78,14 @@
         left_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│          │  &       │  é       │  "       │  '       │  (       │   │  §       │  è       │  !       │  ç       │  à       │          │
-            &trans      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5         &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &trans
+        //│          │  &       │  é       │  "       │  '       │  (       │   │  )       │  è       │  !       │  ç       │  à       │          │
+            &trans      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5        &kp MINUS   &kp N7     &kp N8     &kp N9     &kp N0     &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │  "       │  [       │  {       │  (       │          │   │   /      │  -       │  =       │     :    │  ;       │          │
-            &trans      &kp DQT    &kp LBKT   &kp LBRC   &kp N5     &trans         &kp FSLH  &kp MINUS  &kp EQUAL  &kp COLON   &kp SEMI   &trans
+        //│          │  `       │  /       │  #       │  @       │  {       │   │  }       │   _      │ ^        │  |       │  $       │          │
+            &trans      HRML(BSLH, LS(DOT),   LS(NUBS),  NUBS)     &kp RA(N5)  &kp RA(MINUS) HRMR(LS(EQUAL), LBKT,  RSA(l),     RBKT)   &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │  '       │  ]       │  }       │  )       │          │   │    \     │  _       │  +       │  │       │   ?      │          │
-            &trans      &kp SQT     &kp RBKT   &kp RBRC  &kp MINUS  &trans         &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE  &kp QMARK  &trans
+        //│          │  ù       │  \       │   <      │  >       │  [       │   │  ]       │  ~       │  %       │   °      │  €       │          │
+            &trans    &kp SQT &kp RSA(DOT) &kp GRAVE &kp LS(GRAVE) &kp RSA(N5) &kp RSA(MINUS) &kp RA(N) &kp LS(SQT) &kp LS(MINUS) &kp RA(RBKT) &trans
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
                                               &trans     &trans     &trans         &trans     &trans     &trans
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
