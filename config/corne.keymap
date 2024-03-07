@@ -59,7 +59,7 @@
         //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │ ,?       │ ;.       │ :/       │ =+       │  -_      │
             &kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH    &kp EQUAL
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
-                                             &kt GAM  &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
+                                             &tog GAM  &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
