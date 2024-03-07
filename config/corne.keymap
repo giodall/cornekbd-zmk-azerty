@@ -21,18 +21,18 @@
 / {
     behaviors {
         hmt: homerow_tap {
-            # label = "homerow_tap";
+            // label = "homerow_tap";
             compatible = "zmk,behavior-hold-tap";
-            # binding-cells = <2>;
+            #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <125>;
             bindings = <&kp>, <&kp>;
         };
         lyt: layer_tap {
-            # label = "layer_tap";
+            // label = "layer_tap";
             compatible = "zmk,behavior-hold-tap";
-            # binding-cells = <2>;
+            #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <150>;
             quick-tap-ms = <120>;
