@@ -18,6 +18,12 @@
 
 // THIS IS A FRENCH LAYOUT MAPPING
 
+&lt {
+    flavor = "hold-preferred";
+    tapping-term-ms = <150>;
+    quick-tap-ms = <120>;
+};
+
 / {
     behaviors {
         hmt: homerow_tap {
@@ -27,15 +33,6 @@
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <125>;
-            bindings = <&kp>, <&kp>;
-        };
-        lyt: layer_hold_tap {
-            // label = "layer_tap";
-            compatible = "zmk,behavior-layer-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <150>;
-            quick-tap-ms = <120>;
             bindings = <&kp>, <&kp>;
         };
     };
@@ -62,7 +59,7 @@
         //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │ ,?       │ ;.       │ :/       │ =+       │  -_      │
             &kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH    &kp EQUAL
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
-                                             &kt GAM  &lyt LEF BSPC &kp SPACE     &kp ENTER  &lyt RIG ESC &kp TAB
+                                             &kt GAM  &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
@@ -130,7 +127,7 @@
         //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │ ,?       │ ;.       │ :/       │ =+       │  -_      │
             &kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH    &kp EQUAL
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
-                                             &kt GAM    &kp BSPC   &kp SPACE     &kp ENTER   &kp ESC    &kp TAB
+                                             &tog GAM    &kp BSPC   &kp SPACE     &kp ENTER   &kp ESC    &kp TAB
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
