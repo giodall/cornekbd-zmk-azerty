@@ -6,27 +6,36 @@
 #include <dt-bindings/zmk/bt.h>
 
 // Home row mods macro
-#define HRML(k1,k2,k3,k4) &ht LSHIFT k1 &ht LALT k2  &ht LCTRL k3  &ht LGUI k4
-#define HRMR(k1,k2,k3,k4) &ht RGUI k1  &ht RCTRL k2  &ht RALT k3 &ht RSHIFT k4
+#define HRML(k1,k2,k3,k4) &hmt LSHIFT k1 &hmt LALT k2  &hmt LCTRL k3  &hmt LGUI k4
+#define HRMR(k1,k2,k3,k4) &hmt RGUI k1  &hmt RCTRL k2  &hmt RALT k3 &hmt RSHIFT k4
 #define RSA(k) RS(RA(k))
 
 #define MAC 0
 #define RIG 1
 #define LEF 2
 #define TRI 3
+#define GAM 4
 
 // THIS IS A FRENCH LAYOUT MAPPING
 
 / {
     behaviors {
-        ht: hold_tap {
-            label = "hold_tap";
+        hmt: homerow_tap {
+            label = "homerow_tap";
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <220>;
-            quick-tap-ms = <150>;
-            global-quick-tap;
+            binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <125>;
+            bindings = <&kp>, <&kp>;
+        };
+        lyt: layer_tap {
+            label = "layer_tap";
+            compatible = "zmk,behavior-hold-tap";
+            binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <120>;
             bindings = <&kp>, <&kp>;
         };
     };
@@ -53,7 +62,7 @@
         //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │ ,?       │ ;.       │ :/       │ =+       │  -_      │
             &kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH    &kp EQUAL
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
-                                           &kp LSHIFT &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
+                                             &kt GAM  &lyt LEF BSPC &kp SPACE     &kp ENTER  &lyt RIG ESC &kp TAB
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
@@ -108,6 +117,24 @@
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
+
+        game_layer {
+            bindings = <
+        //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+        //│  ESC     │  A       │  Z       │  E       │  R       │  T       │   │  Y       │  U       │  I       │  O       │  P       │ BACKSPACE│
+            &kp ESC     &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│  TAB     │  Q       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │  M       │  DELETE  │
+            &kp TAB     &kp A      &kp S      &kp D      &kp F      &kp G          &kp H      &kp J      &kpK       &kpL       &kp SEMI   &kp DEL
+        //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+        //│          │  W       │  X       │  C       │  V       │  B       │   │  N       │ ,?       │ ;.       │ :/       │ =+       │  -_      │
+            &kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N     &kp M      &kp COMMA  &kp DOT    &kp FSLH    &kp EQUAL
+        //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                             &kt GAM    &kp BSPC   &kp SPACE     &kp ENTER   &kp ESC    &kp TAB
+        //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
     };
 };
 
