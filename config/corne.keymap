@@ -27,12 +27,11 @@
 / {
     behaviors {
         hmt: homerow_tap {
-            // label = "homerow_tap";
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "hold-preferred";
+            flavor = "tap-preferred";
             tapping-term-ms = <200>;
-            quick-tap-ms = <125>;
+            quick-tap-ms = <150>;
             bindings = <&kp>, <&kp>;
         };
     };
