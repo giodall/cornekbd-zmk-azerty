@@ -26,6 +26,7 @@ home row mods sont configurés avec le flavor le plus hostile.
 7. [Questions ouvertes](#7-questions-ouvertes)
 8. [Branche `test-gaming-debounce`](#8-branche-test-gaming-debounce)
 9. [Ce qui a été appliqué](#9-ce-qui-a-été-appliqué)
+10. [Incident du premier flash](#10-incident-du-premier-flash)
 
 ---
 
@@ -600,3 +601,88 @@ pour sprinter. Déplacé au pouce gauche (§8-⑦).
 
 > ⚠️ Ce sont des vérifications **structurelles**, pas une compilation. Le premier build
 > GitHub Actions reste le vrai test.
+
+---
+
+## 10. Incident du premier flash
+
+**2026-09-21.** Après le premier flash réussi, le clavier ne tapait plus rien — ni en USB,
+ni en Bluetooth. Section écrite pendant la résolution ; le verdict final est en fin de section.
+
+### Symptômes
+
+- Aucune touche, USB comme BLE
+- Le Corne n'apparaissait pas dans les appareils Bluetooth à proximité du Mac
+- Les deux moitiés répondaient au double-tap reset (`NICENANO` montait)
+- Les deux `.uf2` s'étaient écrits correctement (volume démonté de lui-même)
+
+### Commandes de diagnostic utiles (macOS)
+
+À réutiliser tel quel au prochain incident :
+
+```bash
+# Le Mac voit-il le clavier sur le bus USB ?
+ioreg -p IOUSB -l -w 0 | grep '"USB Product Name"' | sort -u
+
+# Quel firmware tourne ? (VID/PID)
+#   0x239A (9114)  = bootloader Adafruit  -> ZMK ne tourne PAS
+#   0x1D50 (7504) + PID 0x615E (24926) = firmware ZMK
+ioreg -p IOUSB -l -w 0 | grep -E "idVendor|idProduct"
+
+# Le device expose-t-il reellement une interface HID clavier ?
+# (c'est CA qui determine si les touches peuvent remonter)
+hidutil list | grep -i 0x1d50
+
+# La carte est-elle en bootloader ?
+ls /Volumes/    # NICENANO monte = bootloader actif
+```
+
+**La distinction décisive :** un device peut être présent sur le bus USB (`ioreg`) **sans**
+exposer d'interface HID (`hidutil`). Dans ce cas il est « vu » par le Mac mais aucune
+frappe ne peut remonter. Vérifier les deux couches, pas seulement la première.
+
+### Deux faux départs à ne pas refaire
+
+**« Le Bluetooth est cassé, on verra ça après. »**
+Le Corne n'apparaissait pas dans les appareils à proximité. Traité comme un problème
+distinct à régler plus tard — c'était en fait le **même** symptôme que l'absence de HID :
+le firmware ne présentait pas d'interface clavier. Deux symptômes simultanés après un
+changement unique ont une cause unique jusqu'à preuve du contraire.
+
+**« Pas de HID = firmware peripheral. »**
+Hypothèse fausse : les deux moitiés ZMK compilent le support HID. L'absence de HID ne
+renseigne pas sur le côté gauche/droite. Cette erreur a coûté un débranchement/rebranchement
+et un flash inutile.
+Ce qui a redressé le diagnostic : la moitié B, flashée avec un firmware **différent**,
+s'est comportée **exactement** comme A. Deux firmwares différents, même symptôme
+→ la cause est dans ce qu'ils partagent (`corne.conf`), pas dans ce qui les distingue.
+
+### Cause probable
+
+`CONFIG_ZMK_HID_CONSUMER_REPORT_USAGES_FULL=y`, ajouté en §4-③. Ce réglage fait passer
+les usages consumer en 16 bits dans le HID report descriptor. Un descripteur refusé par
+l'hôte donne précisément ce symptôme : énumération USB correcte, aucune interface HID
+attachée.
+
+Corrigé en restaurant `corne.conf` à l'identique de `d1c112c` (commit `b4df894`), keymap
+et `build.yaml` laissés inchangés pour isoler la variable.
+
+> **Si le clavier ne revient pas après ce build**, le suspect suivant est le passage à
+> `nice_nano@2.0.0` (commit `71dacf9`), second changement commun aux deux moitiés.
+
+### Leçon
+
+**Ne pas mélanger correctifs et confort dans un même flash.** Les trois réglages
+`corne.conf` (deep sleep, TX power, usages HID) n'avaient pas été demandés et ne
+corrigeaient rien. Ils ont transformé un changement de keymap testable en panne totale,
+et rendu le diagnostic beaucoup plus long : impossible de savoir si la panne venait du
+keymap, de la conf ou du board.
+
+Sur un firmware qu'on ne peut pas tester avant de le flasher, chaque flash ne devrait
+porter **qu'une seule catégorie de changement**.
+
+### Point pratique
+
+Rien ne distingue physiquement les deux PCB d'un Corne — c'est le firmware qui décide du
+côté. **Marquer la moitié gauche** (point de marqueur sous le PCB) évite de refaire ce
+diagnostic à chaque flash.
