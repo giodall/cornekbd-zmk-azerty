@@ -32,7 +32,37 @@ home row mods sont configurés avec le flavor le plus hostile.
 
 ## 1. Correctness du mapping
 
-### ① `-` (tiret) est introuvable dans toute la config — BLOQUANT
+> # ⛔ SECTION INVALIDÉE — NE PAS APPLIQUER
+>
+> **Les points ①, ② et ③ ci-dessous sont FAUX.** Vérifié au clavier le 2026-09-21 :
+> appliqués, ils ont **cassé deux touches qui fonctionnaient** (`RIG`+`G` donnait `§`
+> au lieu de `-`, `RIG`+`T` donnait `_` au lieu de `+`). Corrigé par `87e8b3c`.
+>
+> **Cause de l'erreur :** table AZERTY **Windows** appliquée à un layout Apple
+> « Français ». La cible avait pourtant été correctement identifiée comme Apple FR dès
+> l'en-tête de ce document (via `NUBS`→`@`, `GRAVE`→`<>`), mais la rangée des chiffres a
+> été raisonnée en AZERTY PC.
+>
+> | keycode | **Apple FR** (la cible) | AZERTY Windows (ce qui a été supposé à tort) |
+> |---|---|---|
+> | `N6` | **`§`** / `6` | `-` |
+> | `N8` | **`!`** / `8` | `_` |
+> | `EQUAL` | **`-`** / `_` | `=` / `+` |
+> | `FSLH` | **`=`** / `+` | `!` / `§` |
+> | `NUBS` | **`@`** / `#` | `<` / `>` |
+> | `GRAVE` | **`<`** / `>` | `²` |
+>
+> **Ce qui était vrai depuis le début :** le `-` n'a jamais manqué — il est sur
+> `&kp EQUAL`, exactement là où le commentaire d'origine l'annonçait. Le `+` est sur
+> `&kp LS(FSLH)`. **Les bindings ET les commentaires d'origine étaient corrects.**
+>
+> Seul le point ④ (doublons) reste valable.
+>
+> **Leçon :** ne jamais « corriger » un mapping sur la seule foi d'une table de
+> correspondance — le tester au clavier d'abord. Ici, le commentaire d'origine était une
+> meilleure source de vérité que le raisonnement qui prétendait le corriger.
+
+### ① `-` (tiret) est introuvable dans toute la config — ❌ FAUX
 
 `config/corne.keymap:68`
 
@@ -48,7 +78,7 @@ dans le keymap (vérifié par `grep`). La touche annotée `-` dans le right_laye
 | (b) Le mettre sur le default layer, l.54 | Coûte une touche du layer de base pour un caractère déjà prévu ailleurs. |
 | (c) Ne rien faire | Non. C'est bloquant au quotidien. |
 
-### ② Le `+` du pavé numérique tape `§`
+### ② Le `+` du pavé numérique tape `§` — ❌ FAUX
 
 `config/corne.keymap:65`
 
@@ -63,7 +93,7 @@ Sur AZERTY, `FSLH` = `!`, donc `LS(FSLH)` = `§`. Le vrai `+` est `LS(EQUAL)`.
 Combiné au fix ①, le right_layer devient un vrai pavé numérique cohérent :
 `* 1 2 3 +` / `/ 4 5 6 -` / `. 7 8 9 0`.
 
-### ③ Les bandeaux de commentaires sont désynchronisés
+### ③ Les bandeaux de commentaires sont désynchronisés — ❌ FAUX (ils étaient justes)
 
 C'est **la cause racine** : c'est ce désalignement qui a masqué les bugs ① et ②.
 
@@ -399,7 +429,7 @@ la dictée.
 | # | Action | Section | Effort | Risque |
 |---|---|---|---|---|
 | **0** | **Récupérer `test-gaming-debounce` (squash)** — à faire *avant* le reste | §8 | 5 min | Aucun (fast-forward) |
-| 1 | Fix `-` et `+` (2 tokens) + resync des commentaires | §1-①②③ | 5 min | Aucun |
+| ~~1~~ | ~~Fix `-` et `+`~~ — ❌ **à ne pas faire**, régression, voir bandeau §1 | §1 | — | — |
 | 2 | `&bootloader`, `&caps_word`, `&out OUT_TOG` dans les `&none` / `&trans` libres | §2-①②③ | 10 min | Aucun |
 | 3 | Caps Lock → Globe côté macOS + `&kp CAPS` sur une touche | §5-(a) | 5 min | Aucun |
 | 4 | HRM : `balanced` + `hml`/`hmr` cross-hand + `require-prior-idle-ms` | §3-①②③ | 30 min | Change le ressenti de frappe |
