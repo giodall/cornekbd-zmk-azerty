@@ -271,7 +271,18 @@ revision: main   # ← suit HEAD upstream
 Deux builds à deux semaines d'écart ne produisent pas le même firmware. Combiné au
 `global-quick-tap` déprécié (§3-③), c'est une panne qui arrivera sans prévenir.
 
-→ **Recommandé :** pinner un tag (`v0.2`) ou un SHA.
+→ **Recommandé :** pinner un tag ou un SHA.
+
+> ✅ **FAIT** (`c3aa604` + `91d95ab`) — mais seulement après que ce risque a provoqué une
+> panne totale du clavier le jour même. Voir [§10](#10-incident-du-premier-flash).
+>
+> ⚠️ **Correction d'une affirmation fausse de ce document.** Il a d'abord été écrit ici que
+> « ZMK ne publie pas de releases stables régulières », ce qui a servi à écarter
+> l'épinglage. C'est inexact : **v0.1.0** (2024-12), **v0.2.0** / **v0.2.1** (2025-03) et
+> **v0.3.0** (2025-08) existent. Rien n'empêchait d'épingler dès le départ.
+>
+> Pour monter de version plus tard : changer `revision` dans `west.yml`, le `board` dans
+> `build.yaml` **et** le `uses:` du workflow, puis tester — les trois vont ensemble.
 
 ### ② `corne.conf` est entièrement commenté
 
@@ -584,9 +595,9 @@ pour sprinter. Déplacé au pouce gauche (§8-⑦).
 
 | Sujet | Section | Pourquoi ça n'a pas été fait |
 |---|---|---|
-| **Remap Verr.maj → Globe dans macOS** | §5-a | Action manuelle côté système. **La touche Fn ne marchera pas tant que ce n'est pas fait** — d'ici là le pouce gauche envoie un vrai Caps Lock. |
-| **Tester le firmware** | — | Rien n'a été flashé ni vérifié sur matériel. |
-| Pin de `west.yml` | §4-① | ZMK ne publie pas de releases stables régulières ; choisir un SHA demande de vérifier qu'il build. Laissé sur `main` volontairement. |
+| ~~Remap Verr.maj → Globe dans macOS~~ | §5-a | ✅ **Fait et vérifié** — la touche Fn fonctionne. |
+| ~~Pin de `west.yml`~~ | §4-① | ✅ **Fait** (`c3aa604` + `91d95ab`), après la panne du §10. |
+| **Valider le keymap aux doigts** | §9 | Le firmware tourne, mais les corrections (`-`, `+`, home row mods, game layer) n'ont pas encore été testées à l'usage. |
 | Dédoublonner `ESC`/`TAB`/`BSPC` | §1-④ | Coût en mémoire musculaire > gain. Non prioritaire. |
 | Combos | §3-⑤ | Piste d'amélioration, pas un défaut. |
 | Debounce kscan | §8 | N'a jamais existé malgré le nom de la branche. Chantier entier si besoin. |
@@ -657,18 +668,40 @@ Ce qui a redressé le diagnostic : la moitié B, flashée avec un firmware **dif
 s'est comportée **exactement** comme A. Deux firmwares différents, même symptôme
 → la cause est dans ce qu'ils partagent (`corne.conf`), pas dans ce qui les distingue.
 
-### Cause probable
+### Cause réelle — CONFIRMÉE
 
-`CONFIG_ZMK_HID_CONSUMER_REPORT_USAGES_FULL=y`, ajouté en §4-③. Ce réglage fait passer
-les usages consumer en 16 bits dans le HID report descriptor. Un descripteur refusé par
-l'hôte donne précisément ce symptôme : énumération USB correcte, aucune interface HID
-attachée.
+**L'écart de version ZMK.** `west.yml` suivait `main` : le firmware fonctionnel datait de
+mars 2024 (antérieur au tag v0.1.0), et on compilait contre un `main` de septembre 2026,
+soit 18 mois d'évolution.
 
-Corrigé en restaurant `corne.conf` à l'identique de `d1c112c` (commit `b4df894`), keymap
-et `build.yaml` laissés inchangés pour isoler la variable.
+Résolu en épinglant **trois** références sur la même révision (`c3aa604` + `91d95ab`) :
 
-> **Si le clavier ne revient pas après ce build**, le suspect suivant est le passage à
-> `nice_nano@2.0.0` (commit `71dacf9`), second changement commun aux deux moitiés.
+| Fichier | Avant | Après |
+|---|---|---|
+| `config/west.yml` | `main` | `v0.3.0` |
+| `build.yaml` | `nice_nano@2.0.0` | `nice_nano_v2` |
+| `.github/workflows/build.yml` | `@main` | `@v0.3.0` |
+
+**Le keymap n'a pas changé d'une ligne** entre le build cassé et le build fonctionnel.
+Il n'a jamais été en cause.
+
+> ⚠️ **Épingler le code sans épingler le workflow ne suffit pas.** Le premier essai a
+> échoué sur `KeyError: 'qualifiers'` : le workflow resté en `@main` appelle
+> `west boards --format {qualifiers}`, champ introduit par les hardware revisions et
+> absent de v0.3.0. Les trois références doivent bouger ensemble.
+
+### Deux hypothèses fausses émises en chemin
+
+Consignées parce qu'elles ont coûté du temps et des manipulations inutiles :
+
+1. **« Pas de service HID = firmware peripheral »** — faux, les deux moitiés compilent le
+   HID. A conduit à un débranchement/rebranchement et à un flash inutile.
+2. **« `CONFIG_ZMK_HID_CONSUMER_REPORT_USAGES_FULL` casse le descripteur »** — faux, le
+   revert de `corne.conf` n'a rien changé. Plausible sur le papier, jamais vérifié.
+
+Dans les deux cas l'hypothèse a été présentée avec trop d'assurance avant d'être testée.
+Le fait qui a redressé le diagnostic : deux firmwares **différents** produisaient un
+symptôme **identique** → chercher dans ce qu'ils partagent, pas dans ce qui les distingue.
 
 ### Leçon
 
