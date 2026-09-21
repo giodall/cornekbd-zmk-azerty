@@ -95,9 +95,15 @@
         //                                            │ FN (🌐)  │ BSPC/LEF │   │  ENTER   │ ESC/RIG  │  TAB     │
                                              &kp CAPS  &lt LEF BSPC &kp SPACE     &kp ENTER  &lt RIG ESC &kp TAB
         //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
-        // FN : envoie CAPS_LOCK. Remappe Verr.maj -> Globe dans macOS
-        // (Reglages Systeme > Clavier > Touches de modification... > clavier « Corne »).
-        // Caps Lock reste dispo via &caps_word sur la couche RIG.
+        // FN : envoie CAPS_LOCK. Pour en faire une vraie touche Fn, remappe
+        // Verr.maj -> Globe cote macOS (Tahoe 26) :
+        //   Reglages Systeme > Clavier > bouton « Raccourcis clavier... »
+        //     > « Touches de modification » (barre laterale, en bas)
+        //       > menu « Selectionner un clavier » : Corne  (il doit etre connecte)
+        //         > Touche Verr. maj. : Globe
+        // Le reglage est PAR peripherique : les autres claviers ne bougent pas.
+        // NB : &caps_word (couche RIG) applique un Shift temporaire, pas un
+        // Caps Lock HID — il continue donc de fonctionner apres ce remap.
             >;
         };
 
