@@ -9,9 +9,19 @@
 // THIS IS A FRENCH LAYOUT MAPPING — macOS, layout Apple « Français »
 //
 // Les commentaires indiquent le caractere REELLEMENT produit par macOS,
-// pas le keycode envoye. Exemple : &kp Q produit « A », &kp N6 produit « - ».
+// pas le keycode envoye. Exemple : &kp Q produit « A », &kp EQUAL produit « - ».
 // Si tu modifies un binding, mets le bandeau a jour DANS LE MEME COMMIT :
 // sur un keymap AZERTY-sur-QWERTY, ce commentaire est la seule doc fiable.
+//
+// ATTENTION : Apple « Francais » N'EST PAS l'AZERTY Windows. Pieges verifies
+// a l'usage — ne pas appliquer une table AZERTY PC a cette config :
+//     keycode   Apple FR        (AZERTY Windows, POUR MEMOIRE : FAUX ICI)
+//     N6        §  / 6          (-)
+//     N8        !  / 8          (_)
+//     EQUAL     -  / _          (= / +)
+//     FSLH      =  / +          (! / §)
+//     NUBS      @  / #          (< / >)
+//     GRAVE     <  / >          (² )
 
 // Positions physiques (Corne 42 touches)
 //   0  1  2  3  4  5      6  7  8  9 10 11
@@ -89,7 +99,7 @@
         //│  TAB     │  Q ⇧     │  S ⌥     │  D ⌃     │  F ⌘     │  G       │   │  H       │  J ⌘     │  K ⌃     │  L ⌥     │  M ⇧     │  DELETE  │
             &kp TAB     HRML( A,     S,         D,         F)       &kp G          &kp H      HRMR(J,        K,           L,    SEMI)     &kp DEL
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  SHIFT   │  W       │  X       │  C       │  V       │  B       │   │  N       │  , ?     │  ; .     │  : /     │  ! §     │  = +     │
+        //│  SHIFT   │  W       │  X       │  C       │  V       │  B       │   │  N       │  , ?     │  ; .     │  : /     │  = +     │  - _     │
             &kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp EQUAL
         //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
         //                                            │ FN (🌐)  │ BSPC/LEF │   │  ENTER   │ ESC/RIG  │  TAB     │
@@ -111,10 +121,10 @@
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
         //│          │  *       │  1       │  2       │  3       │  +       │   │          │  HOME    │  UP      │  END     │  PAGE UP │          │
-            &trans    &kp LS(RBKT) &kp EXCL   &kp AT     &kp HASH  &kp LS(EQUAL)   &none      &kp HOME   &kp UARW   &kp END    &kp PG_UP  &trans
+            &trans    &kp LS(RBKT) &kp EXCL   &kp AT     &kp HASH  &kp LS(FSLH)    &none      &kp HOME   &kp UARW   &kp END    &kp PG_UP  &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  /       │  4       │  5       │  6       │  -       │   │ CAPS WORD│ LEFT     │ DOWN     │ RIGHT    │  PAGE DN │          │
-            &trans     &kp LS(DOT) &kp DLLR   &kp PRCNT  &kp CARET  &kp N6        &caps_word  &kp LARW   &kp DARW   &kp RARW   &kp PG_DN  &trans
+            &trans     &kp LS(DOT) &kp DLLR   &kp PRCNT  &kp CARET  &kp EQUAL     &caps_word  &kp LARW   &kp DARW   &kp RARW   &kp PG_DN  &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  .       │  7       │  8       │  9       │  0       │   │          │          │  MENU    │          │          │          │
             &trans    &kp LS(COMMA) &kp AMPS  &kp ASTRK  &kp LPAR   &kp RPAR       &none      &none     &kp K_APP   &none      &none      &trans
@@ -127,10 +137,10 @@
         left_layer {
             bindings = <
         //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│          │  &       │  é       │  "       │  '       │  (       │   │  )       │  è       │  _       │  ç       │  à       │          │
+        //│          │  &       │  é       │  "       │  '       │  (       │   │  )       │  è       │  !       │  ç       │  à       │          │
             &trans      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5        &kp MINUS   &kp N7     &kp N8     &kp N9     &kp N0     &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│          │  ` ⇧     │  / ⌥     │  # ⌃     │  @ ⌘     │  {       │   │  }       │  + ⌘     │  ^ ⌃     │  | ⌥     │  $ ⇧     │          │
+        //│          │  ` ⇧     │  / ⌥     │  # ⌃     │  @ ⌘     │  {       │   │  }       │  _ ⌘     │  ^ ⌃     │  | ⌥     │  $ ⇧     │          │
             &trans      HRML(BSLH, LS(DOT),   LS(NUBS),  NUBS)     &kp RA(N5)  &kp RA(MINUS) HRMR(LS(EQUAL), LBKT,  RSA(L),    RBKT)      &trans
         //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │  ù       │  \       │  <       │  >       │  [       │   │  ]       │  ~       │  %       │  °       │  €       │          │
